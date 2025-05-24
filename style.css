@@ -56,14 +56,14 @@ align-items: center;
   
 
 .title-line {
-    font-size: 1.75em;
+    font-size: 1.5em;
     font-family: myFirstFont; 
     padding-bottom: 1em;
     color: black;
 }
 
 .name-line {
-    font-size: 3em;
+    font-size: 3.2em;
     font-family: MonsieurLaDoulaise, cursive; 
     color: black;
 }
@@ -92,9 +92,9 @@ gap: 0.5em;
 }
 
 .dot {
-height: 0.6em;
-width: 0.6em;
-background-color: rgba(0, 0, 0, 0.3); /* inactive */
+height: 0.4em;
+width: 0.4em;
+background-color: rgba(0, 0, 0, 0.1); /* inactive */
 border-radius: 50%;
 display: inline-block;
 transition: background-color 0.3s;
