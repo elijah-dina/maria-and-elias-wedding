@@ -66,11 +66,12 @@ align-items: center;
     font-size: 3.2em;
     font-family: MonsieurLaDoulaise, cursive; 
     color: black;
+    padding: 0.2em;
 }
 
 .footer {
 text-align: center;
-padding-bottom: 4em;
+padding-bottom: 6em;
 }
 
 .footer p {
@@ -108,10 +109,10 @@ background-color: black;
 .location-button {
 font-family: myFirstFont;
 font-size: 1.1em;
-background-color: white;
-border: 0.1em solid black;
+background-color: rgba(255, 255, 255, 0.4);
+border: 0.05em solid black;
 border-radius: 0.5em;
-padding: 0.5em 1em;
+padding: 0.3em 0.8em;
 margin-bottom: 2em;
 cursor: pointer;
 transition: background-color 0.3s;
@@ -120,6 +121,31 @@ transition: background-color 0.3s;
 .location-button:hover {
 background-color: rgba(0, 0, 0, 0.1);
 }
+
+input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: white;
+    border: 0.05em solid black;
+    width: 1em;
+    height: 1em;
+    border-radius: 0.3em;
+    margin-right: 0.5em;
+    cursor: pointer;
+    position: relative;
+  }
+
+  input[type="radio"]:checked::after {
+    content: "";
+    display: block;
+    width: 60%;
+    height: 60%;
+    background-color: black;
+    position: absolute;
+    top: 20%;
+    left: 20%;
+    border-radius: 0.05em;
+  }
   
 .phone-button {
 display: inline-block;
