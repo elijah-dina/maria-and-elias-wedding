@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
   <title>Wedding Website</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
   <div id="app">
@@ -14,8 +14,8 @@
             <div class="title-line">
               Mr. &amp; Mrs.
             </div>
-            <div class="name-line">
-              Elias Nasr Nakhoul
+            <div class="guest_name">
+              {{ name }}
             </div>
           </div>
         </div>
@@ -194,29 +194,21 @@
               KINDLY RSVP BY JULY 15<sup>th</sup> </div>
       
             <!-- RSVP options -->
-            <form id="rsvp-form" style="font-family: myFirstFont; font-size: 1.1em;">
+            <form id="rsvp-form" method="POST" action="{{ url_for('rsvp', guest_id=guest_id, guest_name=guest_name) }}" onsubmit="return handleSubmit()" style="font-family: myFirstFont; font-size: 1.1em;">
               <label>
-              <input type="radio" name="attendance" value="yes" onclick="toggleGuestOptions(true)">
-                Will Attend
+                <input type="radio" name="will_attend" value="yes" onclick="showGuestOptions()"> Will Attend
               </label><br><br>
-      
-              <!-- Guest count (hidden by default) -->
-              <div id="guest-count" style="display: none; margin-bottom: 2em;">
-                <span style="margin-right: 1em;">Guests:</span>
-                <label style="margin-right: 1em;">
-                  <input type="radio" name="guests" value="1"> 1
-                </label>
-                <label>
-                  <input type="radio" name="guests" value="2"> 2
-                </label>
+
+              <div id="guestOptions" style="display: none; margin-bottom: 2em; align-items: center; justify-content: center">
+                <div class="radio-group" id="guestRadioGroup" style="display: flex; gap: 1.5em;"></div>
               </div>
 
+
               <label>
-              <input type="radio" name="attendance" value="no" onclick="toggleGuestOptions(false)">
-                Cannot Attend
+                <input type="radio" name="will_attend" value="no" onclick="hideGuestOptions()"> Cannot Attend
               </label><br><br>
-      
-              <button type="button" style="font-family: myFirstFont; font-size: 1.1rem;" class="location-button" onclick="confirmRSVP()">Confirm</button>
+
+              <button type="submit" style="font-family: myFirstFont; font-size: 1.1rem;" class="location-button">Confirm</button>
             </form>
           </div>
         </div>
@@ -235,6 +227,69 @@
 
   </div>
 
-  <script src="script.js"></script>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <script>
+    const maxGuests = {{ number }};
+    const guestRadioGroup = document.getElementById('guestRadioGroup');
+
+    function showGuestOptions() {
+      const guestOptionsDiv = document.getElementById('guestOptions');
+      guestOptionsDiv.style.display = 'flex'; // Ensure it shows and aligns items horizontally
+      guestRadioGroup.innerHTML = ''; // Clear previous radios
+
+      // Add "Guests:" label (if not already present)
+      if (!document.getElementById('guests-label')) {
+        const labelSpan = document.createElement('span');
+        labelSpan.textContent = 'Guests:';
+        labelSpan.id = 'guests-label';
+        labelSpan.style.marginRight = '1em';
+        guestRadioGroup.parentNode.insertBefore(labelSpan, guestRadioGroup);
+      }
+
+      // Add radio buttons
+      for (let i = 1; i <= maxGuests; i++) {
+        const label = document.createElement('label');
+        label.style.display = 'flex';
+        label.style.alignItems = 'center';
+        label.innerHTML = `<input type="radio" name="guests" value="${i}"> ${i}`;
+        guestRadioGroup.appendChild(label);
+      }
+
+      const notAttending = document.querySelector('input[name="will_attend"][value="no"]');
+      if (notAttending && notAttending.checked) {
+        notAttending.checked = false;
+      }
+    }
+
+
+    function hideGuestOptions() {
+      document.getElementById('guestOptions').style.display = 'none';
+      document.querySelectorAll('input[name="guests"]').forEach(option => option.checked = false);
+    }
+
+    function handleSubmit() {
+      const attending = document.querySelector('input[name="will_attend"]:checked');
+      const selectedGuests = document.querySelector('input[name="guests"]:checked');
+
+      if (!attending) {
+        alert('Please indicate whether you will be attending.');
+        return false;
+      }
+
+      if (attending.value === 'yes' && !selectedGuests) {
+        alert('Please select the number of guests attending.');
+        return false;
+      }
+
+      if (attending.value === 'yes') {
+        alert(`Thank you! You have confirmed for ${selectedGuests.value} guest(s).`);
+      } else {
+        alert("Thank you for letting us know.");
+      }
+
+      return true; // Proceed to submit
+    }
+  </script>
+
 </body>
 </html>

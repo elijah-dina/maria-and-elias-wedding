@@ -50,26 +50,7 @@ function showMap(type) {
     }
 }
 
-function toggleGuestOptions(show) {
-    const guestDiv = document.getElementById('guest-count');
-    guestDiv.style.display = show ? 'block' : 'none';
-  }
-  
-  function confirmRSVP() {
-    const attendance = document.querySelector('input[name="attendance"]:checked');
-    const guestCount = document.querySelector('input[name="guests"]:checked');
-  
-    if (!attendance) {
-      alert("Please select if you will attend.");
-      return;
-    }
-  
-    if (attendance.value === "yes" && !guestCount) {
-      alert("Please select number of guests.");
-      return;
-    }
-  
-    alert("Thank you for your response!");
-  }
+
+
   
   
