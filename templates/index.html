@@ -11,7 +11,16 @@
     <section class="page" id="page1">
         <div class="content">
           <div class="text-container">
-            {% if 'Dr.' in name %}
+            
+            {% if name.startswith('Dr. & Mrs.') %}
+              <div class="title-line"></div>
+              <div class="guest_name">{{ name }}</div>
+            
+            {% elif name.startswith('Drs.') %}
+              <div class="title-line"></div>
+              <div class="guest_name">{{ name }}</div>
+
+            {% elif 'Dr.' in name %}
               <div class="title-line"></div>
               <div class="guest_name">{{ name }}</div>
 
@@ -24,6 +33,10 @@
               <div class="guest_name">{{ name[4:] | trim }}</div>
 
             {% elif name.startswith('Mrs.') %}
+              <div class="title-line">Mrs.</div>
+              <div class="guest_name">{{ name[5:] | trim }}</div>
+
+            {% elif name.startswith('Ms.') %}
               <div class="title-line">Mrs.</div>
               <div class="guest_name">{{ name[5:] | trim }}</div>
 
