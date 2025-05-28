@@ -115,10 +115,16 @@ padding: 0.3em 0.8em;
 margin-bottom: 2em;
 cursor: pointer;
 transition: background-color 0.3s;
+color: black; /* ✅ Explicitly set text color */
+-webkit-appearance: none; /* ✅ Prevent iOS from applying system style */
 }
 
 .location-button:hover {
 background-color: rgba(0, 0, 0, 0.1);
+}
+
+button {
+  -webkit-appearance: none;
 }
 
 input[type="radio"] {

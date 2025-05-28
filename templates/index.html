@@ -11,12 +11,26 @@
     <section class="page" id="page1">
         <div class="content">
           <div class="text-container">
-            <div class="title-line">
-              Mr. &amp; Mrs.
-            </div>
-            <div class="guest_name">
-              {{ name }}
-            </div>
+            {% if 'Dr.' in name %}
+              <div class="title-line"></div>
+              <div class="guest_name">{{ name }}</div>
+
+            {% elif name.startswith('Mr. & Mrs.') %}
+              <div class="title-line">Mr. &amp; Mrs.</div>
+              <div class="guest_name">{{ name[11:] | trim }}</div>
+
+            {% elif name.startswith('Mr.') %}
+              <div class="title-line">Mr.</div>
+              <div class="guest_name">{{ name[4:] | trim }}</div>
+
+            {% elif name.startswith('Mrs.') %}
+              <div class="title-line">Mrs.</div>
+              <div class="guest_name">{{ name[5:] | trim }}</div>
+
+            {% else %}
+              <div class="title-line"></div>
+              <div class="guest_name">{{ name }}</div>
+            {% endif %}
           </div>
         </div>
         <div class="footer">
