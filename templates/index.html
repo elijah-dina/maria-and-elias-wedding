@@ -22,7 +22,7 @@
 
             {% elif 'Dr.' in name %}
               <div class="title-line"></div>
-              <div class="guest_name">{{ name[4:] | trim }}</div>
+              <div class="guest_name">{{ name }}</div>
 
             {% elif name.startswith('Mr. & Mrs.') %}
               <div class="title-line">Mr. &amp; Mrs.</div>
@@ -44,6 +44,7 @@
               <div class="title-line"></div>
               <div class="guest_name">{{ name }}</div>
             {% endif %}
+
           </div>
         </div>
         <div class="footer">
