@@ -13,7 +13,7 @@
           <div class="text-container">
             
             {% if name.startswith('Dr. & Mrs.') %}
-              <div class="title-line">'Dr. & Mrs.</div>
+              <div class="title-line">Dr. &amp; Mrs.</div>
               <div class="guest_name">{{ name[11:] | trim }}</div>
             
             {% elif name.startswith('Drs.') %}
