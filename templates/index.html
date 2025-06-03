@@ -257,66 +257,86 @@
 
   <script src="{{ url_for('static', filename='script.js') }}"></script>
   <script>
-    const maxGuests = {{ number }};
-    const guestRadioGroup = document.getElementById('guestRadioGroup');
+  const maxGuests = {{ number }};
+  const guestRadioGroup = document.getElementById('guestRadioGroup');
 
-    function showGuestOptions() {
-      const guestOptionsDiv = document.getElementById('guestOptions');
-      guestOptionsDiv.style.display = 'flex'; // Ensure it shows and aligns items horizontally
-      guestRadioGroup.innerHTML = ''; // Clear previous radios
+  function showGuestOptions() {
+    const guestOptionsDiv = document.getElementById('guestOptions');
+    guestRadioGroup.innerHTML = ''; // Clear previous radios
 
-      // Add "Guests:" label (if not already present)
-      if (!document.getElementById('guests-label')) {
-        const labelSpan = document.createElement('span');
-        labelSpan.textContent = 'Guests:';
-        labelSpan.id = 'guests-label';
-        labelSpan.style.marginRight = '1em';
-        guestRadioGroup.parentNode.insertBefore(labelSpan, guestRadioGroup);
-      }
-
-      // Add radio buttons
-      for (let i = 1; i <= maxGuests; i++) {
-        const label = document.createElement('label');
-        label.style.display = 'flex';
-        label.style.alignItems = 'center';
-        label.innerHTML = `<input type="radio" name="guests" value="${i}"> ${i}`;
-        guestRadioGroup.appendChild(label);
-      }
-
-      const notAttending = document.querySelector('input[name="will_attend"][value="no"]');
-      if (notAttending && notAttending.checked) {
-        notAttending.checked = false;
-      }
+    // If maxGuests is 1, don't show options and set hidden field to 1
+    if (maxGuests === 1) {
+      guestOptionsDiv.style.display = 'none';
+      setGuestHiddenValue(1);
+      return;
     }
 
+    guestOptionsDiv.style.display = 'flex'; // Show options
 
-    function hideGuestOptions() {
-      document.getElementById('guestOptions').style.display = 'none';
-      document.querySelectorAll('input[name="guests"]').forEach(option => option.checked = false);
+    if (!document.getElementById('guests-label')) {
+      const labelSpan = document.createElement('span');
+      labelSpan.textContent = 'Guests:';
+      labelSpan.id = 'guests-label';
+      labelSpan.style.marginRight = '1em';
+      guestRadioGroup.parentNode.insertBefore(labelSpan, guestRadioGroup);
     }
 
-    function handleSubmit() {
-      const attending = document.querySelector('input[name="will_attend"]:checked');
-      const selectedGuests = document.querySelector('input[name="guests"]:checked');
+    for (let i = 1; i <= maxGuests; i++) {
+      const label = document.createElement('label');
+      label.style.display = 'flex';
+      label.style.alignItems = 'center';
+      label.innerHTML = `<input type="radio" name="guests" value="${i}"> ${i}`;
+      guestRadioGroup.appendChild(label);
+    }
 
-      if (!attending) {
-        alert('Please indicate whether you will be attending.');
-        return false;
-      }
+    // Clear the "No" selection if switching
+    const notAttending = document.querySelector('input[name="will_attend"][value="no"]');
+    if (notAttending && notAttending.checked) {
+      notAttending.checked = false;
+    }
 
-      if (attending.value === 'yes' && !selectedGuests) {
-        alert('Please select the number of guests attending.');
-        return false;
-      }
+    // Clear hidden value until one is selected
+    setGuestHiddenValue('');
+    document.querySelectorAll('input[name="guests"]').forEach(radio => {
+      radio.addEventListener('change', (e) => {
+        setGuestHiddenValue(e.target.value);
+      });
+    });
+  }
 
-      if (attending.value === 'yes') {
-        alert(`Thank you! You have confirmed for ${selectedGuests.value} guest(s).`);
+  function hideGuestOptions() {
+    document.getElementById('guestOptions').style.display = 'none';
+    setGuestHiddenValue("Not attending");
+  }
+
+  function setGuestHiddenValue(value) {
+    document.getElementById('guestHiddenInput').value = value;
+  }
+
+  function handleSubmit() {
+    const attending = document.querySelector('input[name="will_attend"]:checked');
+    if (!attending) {
+      alert("Please select whether you're attending.");
+      return false;
+    }
+
+    if (attending.value === "yes") {
+      if (maxGuests === 1) {
+        setGuestHiddenValue(1);
       } else {
-        alert("Thank you for letting us know.");
+        const selected = document.querySelector('input[name="guests"]:checked');
+        if (!selected) {
+          alert("Please select how many are attending.");
+          return false;
+        }
       }
-
-      return true; // Proceed to submit
+    } else {
+      setGuestHiddenValue("Not attending");
     }
+
+    return true;
+  }
+
   </script>
 
 </body>
