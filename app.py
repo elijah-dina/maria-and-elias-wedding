@@ -73,7 +73,7 @@ def rsvp(guest_name, guest_id):
         guest = records[guest_id]
         if slugify(guest["NAME"]) == guest_name:
             attending = request.form.get("will_attend")
-            guests = request.form.get("guests") if attending == "yes" else "Not attending"
+            guests = request.form.get("guest_count", "").strip() if attending == "yes" else "Not attending"
             sheet.update_cell(guest_id + 2, 4, guests)  # Column 5 = 'CONFIRMED_RESERVATIONS'
             # Instead of redirecting immediately, pass a message to the thank you page.
             return redirect(url_for("thank_you", guest_name=guest_name, guest_id=guest_id, rsvp_status="Your RSVP has been saved!"))

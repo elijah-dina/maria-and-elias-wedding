@@ -275,12 +275,21 @@
     guestOptionsDiv.style.display = 'flex'; // Show options
 
     if (!document.getElementById('guests-label')) {
-      const labelSpan = document.createElement('span');
-      labelSpan.textContent = 'with:';
-      labelSpan.id = 'guests-label';
-      labelSpan.style.marginRight = '1em';
-      guestRadioGroup.parentNode.insertBefore(labelSpan, guestRadioGroup);
+      // Create and insert "with:" before the radio group
+      const prefixSpan = document.createElement('span');
+      prefixSpan.textContent = 'with:';
+      prefixSpan.id = 'guests-label';
+      prefixSpan.style.marginRight = '1em';
+      guestRadioGroup.parentNode.insertBefore(prefixSpan, guestRadioGroup);
+
+      // Create and insert "person(s)" after the radio group
+      const suffixSpan = document.createElement('span');
+      suffixSpan.textContent = 'person(s)';
+      suffixSpan.id = 'guests-suffix';
+      suffixSpan.style.marginLeft = '1em';
+      guestRadioGroup.parentNode.insertBefore(suffixSpan, guestRadioGroup.nextSibling);
     }
+
 
     for (let i = 0; i < maxGuests; i++) {
       const label = document.createElement('label');
