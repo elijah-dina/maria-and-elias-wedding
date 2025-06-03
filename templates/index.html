@@ -235,9 +235,6 @@
                 <input type="radio" name="will_attend" value="no" onclick="hideGuestOptions()"> Cannot Attend
               </label><br><br>
 
-              <!-- ✅ Add the hidden input here -->
-              <input type="hidden" name="guest_count" id="guestHiddenInput">
-
               <button type="submit" style="font-family: myFirstFont; font-size: 1.1rem;" class="location-button">Confirm</button>
             </form>
           </div>
@@ -268,7 +265,9 @@
 
     if (maxGuests === 1) {
       guestOptionsDiv.style.display = 'none';
-      setGuestHiddenValue(1);
+      const label = document.createElement('label');
+      label.innerHTML = `<input type="radio" name="guests" value="${1}">`;
+      guestRadioGroup.appendChild(label);
       return;
     }
 
