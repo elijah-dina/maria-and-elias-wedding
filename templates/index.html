@@ -235,7 +235,8 @@
               <label>
                 <input type="radio" name="will_attend" value="no" onclick="hideGuestOptions()"> Cannot Attend
               </label><br><br>
-
+              
+              <input type="hidden" name="guest_count" id="guestHiddenInput">
               <button type="submit" style="font-family: myFirstFont; font-size: 1.1rem;" class="location-button">Confirm</button>
             </form>
           </div>
@@ -264,7 +265,6 @@
     const guestOptionsDiv = document.getElementById('guestOptions');
     guestRadioGroup.innerHTML = ''; // Clear previous radios
 
-    // If maxGuests is 1, don't show options and set hidden field to 1
     if (maxGuests === 1) {
       guestOptionsDiv.style.display = 'none';
       setGuestHiddenValue(1);
@@ -275,13 +275,13 @@
 
     if (!document.getElementById('guests-label')) {
       const labelSpan = document.createElement('span');
-      labelSpan.textContent = 'Guests:';
+      labelSpan.textContent = 'with:';
       labelSpan.id = 'guests-label';
       labelSpan.style.marginRight = '1em';
       guestRadioGroup.parentNode.insertBefore(labelSpan, guestRadioGroup);
     }
 
-    for (let i = 1; i <= maxGuests; i++) {
+    for (let i = 0; i < maxGuests; i++) {
       const label = document.createElement('label');
       label.style.display = 'flex';
       label.style.alignItems = 'center';
@@ -289,17 +289,15 @@
       guestRadioGroup.appendChild(label);
     }
 
-    // Clear the "No" selection if switching
     const notAttending = document.querySelector('input[name="will_attend"][value="no"]');
     if (notAttending && notAttending.checked) {
       notAttending.checked = false;
     }
 
-    // Clear hidden value until one is selected
     setGuestHiddenValue('');
     document.querySelectorAll('input[name="guests"]').forEach(radio => {
       radio.addEventListener('change', (e) => {
-        setGuestHiddenValue(e.target.value);
+        setGuestHiddenValue(e.target.value);  // Send value directly (0–maxGuests-1)
       });
     });
   }
@@ -326,7 +324,7 @@
       } else {
         const selected = document.querySelector('input[name="guests"]:checked');
         if (!selected) {
-          alert("Please select how many are attending.");
+          alert("Please select how many guests (including you).");
           return false;
         }
       }
@@ -336,8 +334,8 @@
 
     return true;
   }
+</script>
 
-  </script>
 
 </body>
 </html>
