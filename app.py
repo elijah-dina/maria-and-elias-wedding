@@ -45,7 +45,13 @@ def show_guest(guest_name, guest_id):
     if 0 <= guest_id < len(records):
         guest = records[guest_id]
         if slugify(guest["NAME"]) == guest_name:
-            return render_template("index.html", name=guest["NAME"], number=guest["NUMBER"], guest_id=guest_id, guest_name=guest_name) # Pass guest_name to the template
+            return render_template("index.html",
+                                   name=guest["NAME"],
+                                   number=guest["NUMBER"],
+                                   guest_id=guest_id,
+                                   guest_name=guest_name,
+                                   single_person=guest["INFORMATION"]
+                                   )  # Pass guest_name to the template
     return "Guest not found", 404
 
 
@@ -61,6 +67,7 @@ def journey(guest_name, guest_id):
                 number=guest["NUMBER"],
                 guest_id=guest_id,
                 invite_link=guest['INVITE_LINK'],
+                single_person=guest["INFORMATION"],
                 guest_name=guest_name  # Explicitly pass guest_name again
             )
     return "Guest not found", 404
@@ -76,7 +83,11 @@ def rsvp(guest_name, guest_id):
             guests = request.form.get("guest_count", "").strip() if attending == "yes" else "Not attending"
             sheet.update_cell(guest_id + 2, 4, guests)  # Column 5 = 'CONFIRMED_RESERVATIONS'
             # Instead of redirecting immediately, pass a message to the thank you page.
-            return redirect(url_for("thank_you", guest_name=guest_name, guest_id=guest_id, rsvp_status="Your RSVP has been saved!"))
+            return redirect(url_for("thank_you",
+                                    guest_name=guest_name,
+                                    guest_id=guest_id,
+                                    rsvp_status="Your RSVP has been saved!")
+                            )
     return "Guest not found", 404
 
 
