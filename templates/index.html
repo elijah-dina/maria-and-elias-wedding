@@ -219,7 +219,12 @@
             </div>
       
             <div class="line" style="font-family: myFirstFont; font-size: 1.2em; padding-bottom: 2em;">
+              {% if single_person != 'PUSH' %}
               KINDLY RSVP BY JULY 15<sup>th</sup> </div>
+              {% endif %}
+              {% if single_person != '' %}
+              KINDLY RSVP BY JULY 30<sup>th</sup> </div>
+              {% endif %}
       
             <!-- RSVP options -->
             <form id="rsvp-form" method="POST" action="{{ url_for('rsvp', guest_id=guest_id, guest_name=guest_name) }}" onsubmit="return handleSubmit()" style="font-family: myFirstFont; font-size: 1.1em;">
