@@ -219,14 +219,12 @@
             </div>
       
             <div class="line" style="font-family: myFirstFont; font-size: 1.2em; padding-bottom: 2em;">
-              {% if single_person != 'PUSH' %}
-              KINDLY RSVP BY JULY 15<sup>th</sup> </div>
-              {% endif %}
-              {% if single_person != 'PUSH2' %}
-              KINDLY RSVP BY AUG 5<sup>th</sup> </div>
-              {% endif %}
-              {% if single_person != '' %}
+              {% if single_person == 'PUSH' %}
               KINDLY RSVP BY JULY 30<sup>th</sup> </div>
+              {% elif single_person == 'PUSH2' %}
+              KINDLY RSVP BY AUG 5<sup>th</sup> </div>
+              {% else %}
+              KINDLY RSVP BY JULY 15<sup>th</sup> </div>
               {% endif %}
       
             <!-- RSVP options -->
